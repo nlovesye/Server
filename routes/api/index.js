@@ -20,6 +20,25 @@ dbHandle.on('open', function (err) {
   console.log('数据库连接成功')
 })
 
+router.get('/test', async function (ctx, next) {
+  const userModel = new mongoose.Schema({
+    name: 'String',
+    age: 'Number',
+    sex: 'String'
+  })
+  const User = mongoose.model('User', userModel, 'user')
+  const query = User.find({})
+  query.select('name age sex')
+  try {
+    const rt = await query.exec()
+    console.log('rt', rt)
+    ctx.body = rt
+  } catch (error) {
+    console.log('err', error)
+    ctx.body = 'fail!'
+  }
+})
+
 router.post('/login', function (ctx, next) {
   console.log('req', ctx.request.body, JSON.stringify(ctx.request.body))
   ctx.body = 'this is a users respon22se!'
