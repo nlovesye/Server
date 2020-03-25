@@ -1,8 +1,13 @@
 const router = require('koa-router')()
+const db = require('../../db')
 
 router.prefix('/api/user')
 
 router.get('/', function (ctx, next) {
+  db.find('user', {}, 'username', function(err, rt) {
+    console.log('rt2', rt)
+    ctx.body = rt
+  })
   ctx.body = 'thishits is a users response!'
 })
 
