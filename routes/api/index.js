@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const db = require('../../db')
+const mongo = require('../../db')
 
 const user = require('./user')
 
@@ -7,10 +7,8 @@ router.prefix('/api')
 
 router.get('/test', async function (ctx, next) {
   try {
-    db.find('user', {}, 'username password', function(err, rt) {
-      console.log('rt2', rt)
-      ctx.body = rt
-    })
+    const rt = await mongo.find('USER', {}, 'name age')
+    ctx.body = rt
   } catch (error) {
     console.log('err', error)
     ctx.body = 'fail!'

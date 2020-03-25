@@ -9,7 +9,6 @@ const logger = require('koa-logger')
 
 const defaultRouter = require('./routes')
 const api = require('./routes/api')
-
 // console.log('all router', defaultRouter, api)
 
 // error handler
@@ -40,8 +39,8 @@ app.use(async (ctx, next) => {
 
 // routes
 for (const m in defaultRouter) {
-  if (api.hasOwnProperty(m)) {
-    const rt = api[m]
+  if (defaultRouter.hasOwnProperty(m)) {
+    const rt = defaultRouter[m]
     app.use(rt.routes(), rt.allowedMethods())
   }
 }
