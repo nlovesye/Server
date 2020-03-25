@@ -4,7 +4,7 @@ const db = require('../../db')
 router.prefix('/api/user')
 
 router.get('/', function (ctx, next) {
-  db.find('USER', {}, 'name age sex', function(err, rt) {
+  db.find('USER', {}, 'name age', function(err, rt) {
     console.log('rt2', rt)
     ctx.body = rt
   })

@@ -7,7 +7,7 @@ router.prefix('/api')
 
 router.get('/test', async function (ctx, next) {
   try {
-    const rt = await mongo.find('USER', {}, 'name age')
+    const rt = await mongo.find('USER', {}, 'name age sex')
     ctx.body = rt
   } catch (error) {
     console.log('err', error)

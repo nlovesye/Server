@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 const config = require('../config')
 
 const initMongoose = async () => {
-    const { userName, pwd, port, host, dbName } = config.db
-    // const dbURL = `mongodb://${userName}:${pwd}@${host}:${port}/${dbName}`
+    const { port, host, dbName } = config.db
     const dbURL = `mongodb://${host}:${port}/${dbName}`
     mongoose.connect(dbURL)
     const conn = mongoose.connection
