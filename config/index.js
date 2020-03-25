@@ -6,7 +6,7 @@ module.exports = {
         host: '113.116.40.150',
         // host: 'localhost',
         port: 27017,
-        dbName: 'test',
+        dbName: 'GENERAL',
         useNewUrlParser: true
     }
 }

@@ -2,6 +2,7 @@ const router = require('koa-router')()
 const mongo = require('../../db')
 
 const user = require('./user')
+const general = require('./general')
 
 router.prefix('/api')
 
@@ -22,5 +23,6 @@ router.post('/login', function (ctx, next) {
 
 module.exports = {
     router,
-    user
+    user,
+    general
 }
