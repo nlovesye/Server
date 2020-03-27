@@ -52,7 +52,8 @@ router.delete('/', async function (ctx, next) {
 
 router.get('/', async function (ctx, next) {
   try {
-    const ret = await db.find(table, null, null)
+    // console.log('q', ctx.query, JSON.stringify(ctx.query))
+    const ret = await db.find(table, ctx.query, null)
     ctx.body = ret || []
   } catch (error) {
     console.log(error)
