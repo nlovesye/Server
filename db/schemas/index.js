@@ -21,6 +21,7 @@ const USER = {
 
 // 武将表
 const GENERAL = {
+    // _id: 'ObjectId',
     name: "String", // 姓名
     camp: 'Number', // 阵营
     level: 'Number', // 等级
@@ -36,6 +37,7 @@ const GENERAL = {
     fate: 'Array', // 缘分武将
     fateCount: 'Number', // 缘分组数量
     isPureGeneral: 'Boolean', // 是否武将（非内政）
+    controlVal: 'Number', // 统御值
 }
 
 module.exports = {

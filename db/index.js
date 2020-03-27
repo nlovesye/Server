@@ -68,7 +68,7 @@ class Mongo {
             const res = await mongooseEntity.save()
             return res
         } catch (error) {
-            return errLogger('save 失败', error)
+            throw error
         }
     }
 
