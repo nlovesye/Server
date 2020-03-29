@@ -131,11 +131,20 @@ class Mongo {
      * @param conditions 查询条件
      * @param fields 待返回字段
      */
-    async find(name, conditions, fields) {
+    async find(name, conditions, fields, options) {
         const m = this.getModel(name)
         try {
-            const res = await m.find(conditions, fields || null, {})
-            return res
+            let list = []
+            if (options.pageNo && !!options.pageSize) {
+                list = await m.find(conditions, fields || null, {}).limit(parseInt(options.pageSize, 10)).skip((parseInt(options.pageNo, 10) - 1) * parseInt(options.pageSize, 10))
+            } else {
+                list = await m.find(conditions, fields || null, {})
+            }
+            const total = await m.count(conditions)
+            return {
+                list,
+                total
+            }
         } catch (error) {
             return errLogger('find 失败', error)
         }
