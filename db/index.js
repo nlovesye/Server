@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const errLogger = require('../util/errLogger')
 const initMongoose = require('./initMongoose')
 const schemas = require('./schemas')
 
@@ -51,7 +50,7 @@ class Mongo {
      */
     async save(name, fields) {
         if (!fields) {
-            return errLogger('Field is not allowed for null')
+            throw 'Field is not allowed for null'
         }
 
         let err_num = 0
@@ -59,7 +58,7 @@ class Mongo {
             if (!this.schemas[name][i]) err_num++
         }
         if (err_num > 0) {
-            return errLogger('Wrong field name')
+            throw 'Wrong field name'
         }
 
         const m = this.getModel(name)
@@ -80,14 +79,14 @@ class Mongo {
      */
     async update (name, conditions, fields) {
         if (!fields || !conditions) {
-            return errLogger('Parameter error')
+            throw 'Parameter error'
         }
         const m = this.getModel(name)
         try {
             const res = await m.update(conditions, { $set: fields }, { multi: true, upsert: true })
             return res
         } catch (error) {
-            return errLogger('update更新数据 失败', error)
+            throw error
         }
     }
 
@@ -99,14 +98,14 @@ class Mongo {
      */
     async updateData (name, conditions, fields) {
         if (!fields || !conditions) {
-            return errLogger('updateData Parameter error')
+            throw 'updateData Parameter error'
         }
         const m = this.getModel(name)
         try {
             const res = await m.findOneAndUpdate(conditions, fields, { multi: true, upsert: true })
             return res
         } catch (error) {
-            return errLogger('updateData更新数据 失败', error)
+            throw error
         }
     }
 
@@ -121,7 +120,7 @@ class Mongo {
             const res = await m.remove(conditions)
             return res
         } catch (error) {
-            return errLogger('updateData更新数据 失败', error)
+            throw error
         }
     }
 
@@ -146,7 +145,7 @@ class Mongo {
                 total
             }
         } catch (error) {
-            return errLogger('find 失败', error)
+            throw error
         }
     }
 
@@ -155,13 +154,13 @@ class Mongo {
      * @param name 表名
      * @param conditions 查询条件
      */
-    async findOne (name, conditions) {
+    async findOne (name, conditions, fields) {
         const m = this.getModel(name)
         try {
-            const res = await m.findOne(conditions)
+            const res = await m.findOne(conditions, fields || null)
             return res
         } catch (error) {
-            return errLogger('findOne 失败', error)
+            throw error
         }
     }
 
@@ -176,7 +175,7 @@ class Mongo {
             const res = await m.findById(_id)
             return res
         } catch (error) {
-            return errLogger('findById 失败', error)
+            throw error
         }
     }
 
@@ -191,7 +190,7 @@ class Mongo {
             const res = await m.count(conditions)
             return res
         } catch (error) {
-            return errLogger('count返回符合条件的文档数 失败', error)
+            throw error
         }
     }
 
@@ -207,7 +206,7 @@ class Mongo {
             const res = await m.distinct(field, conditions)
             return res
         } catch (error) {
-            return errLogger('查询符合条件的文档并返回根据键分组的结果 失败', error)
+            throw error
         }
     }
 
@@ -224,7 +223,7 @@ class Mongo {
             const res = query.exec()
             return res
         } catch (error) {
-            return errLogger('连写查询 失败', error)
+            throw error
         }
     }
 }

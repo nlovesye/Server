@@ -3,9 +3,9 @@ const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
-// const bodyparser = require('koa-bodyparser')
 const koaBody = require('koa-body')
 const logger = require('koa-logger')
+const middlewares = require('./middlewares')
 
 const defaultRouter = require('./routes')
 const api = require('./routes/api')
@@ -15,9 +15,12 @@ const api = require('./routes/api')
 onerror(app)
 
 // middlewares
-// app.use(bodyparser({
-//   enableTypes:['json', 'form', 'text']
-// }))
+for (const k in middlewares) {
+  if (middlewares.hasOwnProperty(k)) {
+    const fn = middlewares[k]
+    app.use(fn)
+  }
+}
 app.use(koaBody({
   multipart: true
 }))
