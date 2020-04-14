@@ -24,7 +24,7 @@ router.post('/login', async function (ctx, next) {
     if (password !== user.password) {
         throw '密码错误！'
     }
-    const exp = Math.floor(Date.now() / 1000) + (60 * 60 * 24)
+    const exp = Math.floor(Date.now() / 1000) + (60 * 60 * 7) // token有效期7小时
     const token = jwt.sign({
         exp,
         userName: user.userName,
